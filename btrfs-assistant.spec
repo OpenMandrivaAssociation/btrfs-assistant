@@ -1,4 +1,4 @@
-ame:           btrfs-assistant
+Name:           btrfs-assistant
 Version:        1.7
 Release:        1
 Summary:        GUI management tool to make managing a Btrfs filesystem easier
