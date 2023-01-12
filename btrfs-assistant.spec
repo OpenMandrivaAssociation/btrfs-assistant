@@ -13,6 +13,7 @@ Requires:       polkit
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(libbtrfsutil)
+BuildRequires:  qt5-linguist-tools
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  pkgconfig(Qt5Svg)
 BuildRequires:  appstream-util
