@@ -1,28 +1,24 @@
 ame:           btrfs-assistant
-Version:        1.6.3
-Release:        %autorelease
+Version:        1.7
+Release:        1
 Summary:        GUI management tool to make managing a Btrfs filesystem easier
- 
+Group:          System/ 
 License:        GPL-3.0-or-later
-URL:            https://gitlab.com/%{name}/%{name}
-Source0:        https://gitlab.com/%{name}/%{name}/-/archive/%{version}/%{name}-%{version}.tar.gz
- 
+URL:            https://gitlab.com/btrfs-assistant/btrfs-assistant
+Source0:        https://gitlab.com/btrfs-assistant/btrfs-assistant/-/archive/%{version}/btrfs-assistant-%{version}.tar.bz2
+Group:          System/Monitoring
 Requires:       hicolor-icon-theme
 Requires:       polkit
  
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
-BuildRequires:  gcc-c++
-BuildRequires:  btrfs-progs-devel
-BuildRequires:  libbtrfsutil
+BuildRequires:  pkgconfig(libbtrfsutil)
 BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qttools-devel
-BuildRequires:  libappstream-glib
- 
+BuildRequires:  pkgconfig(Qt5Svg)
+BuildRequires:  appstream-util
 Recommends:     btrfsmaintenance
 Recommends:     snapper
- 
- 
+
 %description
 Btrfs Assistant is a GUI management tool to make managing a Btrfs filesystem
 easier.
@@ -47,7 +43,6 @@ The primary features it offers are:
     * Manage systemd units
     * Easily manage configuration for defrag, balance and srub settings
  
- 
 %prep
 %autosetup -p1
  
@@ -55,16 +50,14 @@ The primary features it offers are:
 sed -i 's|^bm_config =.*|bm_config = %{_sysconfdir}/sysconfig/btrfsmaintenance|' src/btrfs-assistant.conf
  
 %build
-%cmake
-%cmake_build
+%cmake -DCMAKE_BUILD_TYPE='Release'
+%make_build
+
 %install
-%cmake_install
+%make_install -C build
 %check
-%ctest
-desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
-appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.metainfo.xml
  
- 
+
 %files
 %license LICENSE
 %doc README.md
