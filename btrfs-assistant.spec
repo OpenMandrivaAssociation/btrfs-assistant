@@ -1,6 +1,6 @@
 Name:           btrfs-assistant
 Version:        1.8
-Release:        1
+Release:        2
 Summary:        GUI management tool to make managing a Btrfs filesystem easier
 Group:          System/ 
 License:        GPL-3.0-or-later
