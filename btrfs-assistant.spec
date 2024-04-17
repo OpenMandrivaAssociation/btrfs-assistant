@@ -13,9 +13,9 @@ Requires:       polkit
 BuildRequires:  desktop-file-utils
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(libbtrfsutil)
-BuildRequires:  qt5-linguist-tools
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  pkgconfig(Qt5Svg)
+BuildRequires:  cmake(Qt6LinguistTools)
+BuildRequires:  cmake(Qt6Widgets)
+BuildRequires:  cmake(Qt6Svg)
 BuildRequires:  appstream-util
 Recommends:     btrfsmaintenance
 Recommends:     snapper
