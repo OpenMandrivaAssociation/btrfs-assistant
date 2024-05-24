@@ -1,5 +1,5 @@
 Name:           btrfs-assistant
-Version:        2.1
+Version:        2.1.1
 Release:        1
 Summary:        GUI management tool to make managing a Btrfs filesystem easier
 Group:          System/ 
