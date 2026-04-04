@@ -1,32 +1,33 @@
-Name:           btrfs-assistant
-Version:        2.1.1
-Release:        1
-Summary:        GUI management tool to make managing a Btrfs filesystem easier
-Group:          System/ 
-License:        GPL-3.0-or-later
-URL:            https://gitlab.com/btrfs-assistant/btrfs-assistant
-Source0:        https://gitlab.com/btrfs-assistant/btrfs-assistant/-/archive/%{version}/btrfs-assistant-%{version}.tar.bz2
-Group:          System/Monitoring
-Requires:       hicolor-icon-theme
-Requires:       polkit
- 
-BuildRequires:  desktop-file-utils
-BuildRequires:  cmake
-BuildRequires:  pkgconfig(libbtrfsutil)
-BuildRequires:  cmake(Qt6LinguistTools)
-BuildRequires:  cmake(Qt6Widgets)
-BuildRequires:  cmake(Qt6Svg)
-BuildRequires:  appstream-util
-Recommends:     btrfsmaintenance
-Recommends:     snapper
+Summary:		GUI management tool to make managing a Btrfs filesystem easier
+Name:	btrfs-assistant
+Version:		2.2
+Release:		1
+License:		GPLv3+
+Group:	System/Monitoring
+Url:		https://gitlab.com/btrfs-assistant/btrfs-assistant
+Source0:	https://gitlab.com/btrfs-assistant/btrfs-assistant/-/archive/%{version}/btrfs-assistant-%{version}.tar.bz2
+Patch0:	btrfs-assistant-2.2-drop-Werror.patch
+Patch1:	btrfs-assistant-2.2-fix-env-shebangs.patch
+BuildRequires:		appstream-util
+BuildRequires:		cmake >= 3.16
+BuildRequires:		desktop-file-utils
+BuildRequires:		make
+BuildRequires:		cmake(Qt6LinguistTools)
+BuildRequires:		cmake(Qt6Svg)
+BuildRequires:		cmake(Qt6Widgets)
+BuildRequires:		pkgconfig(gl)
+BuildRequires:		pkgconfig(libbtrfsutil)
+BuildRequires:		pkgconfig(vulkan)
+Requires:	hicolor-icon-theme
+Requires:	polkit
+Recommends:	btrfsmaintenance
+Recommends:	snapper
 
 %description
 Btrfs Assistant is a GUI management tool to make managing a Btrfs filesystem
 easier.
- 
-The primary features it offers are:
- 
-* An easy to read overview of Btrfs metadata
+ The primary features it offers are:
+ * An easy to read overview of Btrfs metadata
 * A simple view of subvolumes with or without Snapper/Timeshift snapshots
 * Run and monitor scrub and balance operations
 * A pushbutton method for removing subvolumes
@@ -43,25 +44,10 @@ The primary features it offers are:
 * A front-end for Btrfs Maintenance
     * Manage systemd units
     * Easily manage configuration for defrag, balance and srub settings
- 
-%prep
-%autosetup -p1
- 
-# Fix config path for btrfsmaintenance
-sed -i 's|^bm_config =.*|bm_config = %{_sysconfdir}/sysconfig/btrfsmaintenance|' src/btrfs-assistant.conf
- 
-%build
-%cmake -DCMAKE_BUILD_TYPE='Release'
-%make_build
-
-%install
-%make_install -C build
-%check
- 
 
 %files
 %license LICENSE
-%doc README.md
+%doc changelog README.md
 %{_bindir}/%{name}
 %{_bindir}/%{name}-bin
 %{_bindir}/%{name}-launcher
@@ -70,3 +56,24 @@ sed -i 's|^bm_config =.*|bm_config = %{_sysconfdir}/sysconfig/btrfsmaintenance|'
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_datadir}/polkit-1/actions/org.%{name}.pkexec.policy
 %config(noreplace) %{_sysconfdir}/%{name}.conf
+ 
+#-----------------------------------------------------------------------------
+ 
+%prep
+%autosetup -p1
+ 
+# Fix config path for btrfsmaintenance
+sed -i 's|^bm_config =.*|bm_config = %{_sysconfdir}/sysconfig/btrfsmaintenance|' src/btrfs-assistant.conf
+ 
+
+%build
+%cmake -DCMAKE_BUILD_TYPE='Release'
+%make_build
+
+
+%install
+%make_install -C build
+
+
+#check
+ 
