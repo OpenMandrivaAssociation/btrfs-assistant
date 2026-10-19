@@ -1,23 +1,22 @@
 Summary:		GUI management tool to make managing a Btrfs filesystem easier
 Name:	btrfs-assistant
-Version:		2.2
+Version:		3.0.0
 Release:		1
 License:		GPLv3+
 Group:	System/Monitoring
 Url:		https://gitlab.com/btrfs-assistant/btrfs-assistant
 Source0:	https://gitlab.com/btrfs-assistant/btrfs-assistant/-/archive/%{version}/btrfs-assistant-%{version}.tar.bz2
-Patch0:	btrfs-assistant-2.2-drop-Werror.patch
-Patch1:	btrfs-assistant-2.2-fix-env-shebangs.patch
 BuildRequires:		appstream-util
 BuildRequires:		cmake >= 3.16
 BuildRequires:		desktop-file-utils
 BuildRequires:		make
+BuildRequires:		cmake(Qt6DBus)
 BuildRequires:		cmake(Qt6LinguistTools)
-BuildRequires:		cmake(Qt6Svg)
 BuildRequires:		cmake(Qt6Widgets)
 BuildRequires:		pkgconfig(gl)
 BuildRequires:		pkgconfig(libbtrfsutil)
 BuildRequires:		pkgconfig(vulkan)
+Requires:	btrfs-progs
 Requires:	hicolor-icon-theme
 Requires:	polkit
 Recommends:	btrfsmaintenance
@@ -49,31 +48,32 @@ easier.
 %license LICENSE
 %doc changelog README.md
 %{_bindir}/%{name}
-%{_bindir}/%{name}-bin
-%{_bindir}/%{name}-launcher
+%{_libexecdir}/%{name}
+%{_unitdir}/%{name}-helper.service
+%{_datadir}/dbus-1/system-services/org.btrfsassistant.Helper1.service
+%{_datadir}/dbus-1/system.d/org.btrfsassistant.Helper1.conf
+%{_datadir}/polkit-1/actions/org.btrfsassistant.policy
 %{_metainfodir}/%{name}.metainfo.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
-%{_datadir}/polkit-1/actions/org.%{name}.pkexec.policy
+%{_datadir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}.conf
- 
+
 #-----------------------------------------------------------------------------
- 
+
 %prep
 %autosetup -p1
- 
+
 # Fix config path for btrfsmaintenance
 sed -i 's|^bm_config =.*|bm_config = %{_sysconfdir}/sysconfig/btrfsmaintenance|' src/btrfs-assistant.conf
- 
+
 
 %build
-%cmake -DCMAKE_BUILD_TYPE='Release'
+%cmake -DCMAKE_BUILD_TYPE=Release \
+	-DBTRFS_ASSISTANT_HELPER_LIBEXEC=ON \
+	-DBTRFS_ASSISTANT_SYSTEMD_UNIT_DIR=%{_unitdir}
 %make_build
 
 
 %install
 %make_install -C build
-
-
-#check
- 

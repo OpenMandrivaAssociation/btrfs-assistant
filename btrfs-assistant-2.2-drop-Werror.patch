@@ -1,9 +1,0 @@
-diff -rupN btrfs-assistant-2.2.old/src/CMakeLists.txt btrfs-assistant-2.2/src/CMakeLists.txt
---- btrfs-assistant-2.2.old/src/CMakeLists.txt	2025-06-15 19:56:34.000000000 +0200
-+++ btrfs-assistant-2.2/src/CMakeLists.txt	2026-04-04 14:03:59.818919846 +0200
-@@ -34,4 +34,4 @@ install(TARGETS btrfs-assistant-bin RUNT
- 
- find_library(BTRFSUTIL_LIB btrfsutil)
- target_link_libraries(btrfs-assistant-bin PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${BTRFSUTIL_LIB})
--target_compile_options(btrfs-assistant-bin PRIVATE -Werror -Wall -Wextra -Wconversion)
-+target_compile_options(btrfs-assistant-bin PRIVATE -Wall -Wextra -Wconversion)
